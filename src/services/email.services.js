@@ -15,9 +15,9 @@ const transporter = nodemailer.createTransport({
 // Verify the connection configuration
 transporter.verify((error, success) => {
   if (error) {
-    console.error('Error connecting to email server:', error);
+    console.log('⚠️  Email service disabled (Invalid or missing OAuth credentials in .env)');
   } else {
-    console.log('Email server is ready to send messages');
+    console.log('📧 Email server is ready to send messages');
   }
 });
 

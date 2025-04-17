@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NeoBank Ledger — A secure, modern banking dashboard for managing accounts and transactions.">
+    <title>NeoBank Ledger — Secure Banking Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ========= AUTH SCREEN ========= -->
+    <div id="auth-screen" class="auth-screen">
+        <div class="auth-bg">
+            <div class="auth-orb auth-orb-1"></div>
+            <div class="auth-orb auth-orb-2"></div>
+            <div class="auth-orb auth-orb-3"></div>
+        </div>
+        <div class="auth-container">
+            <div class="auth-brand">
+                <div class="auth-logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="10" fill="url(#logo-grad)"/><path d="M8 22V14l8-6 8 6v8H20v-5h-8v5H8z" fill="white" opacity="0.9"/><defs><linearGradient id="logo-grad" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs></svg>
+                </div>
+                <span class="auth-brand-name">NeoBank Ledger</span>
+            </div>
+
+            <div class="auth-card">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+                    <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Create Account</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+                    <h1 class="auth-title">Welcome back</h1>
+                    <p class="auth-subtitle">Sign in to manage your finances</p>
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 20 20" fill="none"><path d="M3 6l7 5 7-5M3 6h14v10a1 1 0 01-1 1H4a1 1 0 01-1-1V6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            <input type="email" id="login-email" placeholder="you@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9V7a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            <input type="password" id="login-password" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    <div id="login-error" class="form-error hidden"></div>
+                    <button type="submit" class="btn-primary btn-full" id="login-btn">
+                        <span class="btn-text">Sign In</span>
+                        <div class="btn-spinner hidden"></div>
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="register-form" class="auth-form hidden" onsubmit="handleRegister(event)">
+                    <h1 class="auth-title">Create account</h1>
+                    <p class="auth-subtitle">Start your banking journey today</p>
+                    <div class="form-group">
+                        <label for="reg-name">Full Name</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M4 17c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            <input type="text" id="reg-name" placeholder="Midun P" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email Address</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 20 20" fill="none"><path d="M3 6l7 5 7-5M3 6h14v10a1 1 0 01-1 1H4a1 1 0 01-1-1V6z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            <input type="email" id="reg-email" placeholder="you@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 9V7a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            <input type="password" id="reg-password" placeholder="Min. 8 characters" required minlength="8">
+                        </div>
+                    </div>
+                    <div id="register-error" class="form-error hidden"></div>
+                    <button type="submit" class="btn-primary btn-full" id="register-btn">
+                        <span class="btn-text">Create Account</span>
+                        <div class="btn-spinner hidden"></div>
+                    </button>
+                </form>
+            </div>
+
+            <p class="auth-footer">Secured with JWT authentication &amp; MongoDB Atlas</p>
+        </div>
+    </div>
+
+    <!-- ========= APP SCREEN ========= -->
+    <div id="app-screen" class="app-screen hidden">
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="10" fill="url(#logo-grad2)"/><path d="M8 22V14l8-6 8 6v8H20v-5h-8v5H8z" fill="white" opacity="0.9"/><defs><linearGradient id="logo-grad2" x1="0" y1="0" x2="32" y2="32"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs></svg>
+                </div>
+                <span class="sidebar-brand">NeoBank</span>
+                <button class="sidebar-close" onclick="toggleSidebar()">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" id="nav-dashboard" onclick="navigateTo('dashboard')">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8"/></svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" id="nav-accounts" onclick="navigateTo('accounts')">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M2 10h20" stroke="currentColor" stroke-width="1.8"/></svg>
+                    <span>Accounts</span>
+                </button>
+                <button class="nav-item" id="nav-transfer" onclick="navigateTo('transfer')">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none"><path d="M7 16V4m0 0L4 7m3-3l3 3M17 8v12m0 0l3-3m-3 3l-3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <span>Transfer</span>
+                </button>
+                <button class="nav-item" id="nav-history" onclick="navigateTo('history')">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    <span>History</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar" id="user-avatar-sidebar">M</div>
+                    <div class="user-meta">
+                        <p class="user-name" id="user-name-sidebar">Loading...</p>
+                        <p class="user-email" id="user-email-sidebar">...</p>
+                    </div>
+                </div>
+                <button class="btn-logout" onclick="handleLogout()" title="Sign out">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Overlay for mobile sidebar -->
+        <div class="sidebar-overlay hidden" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <button class="hamburger" onclick="toggleSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </button>
+                <div class="topbar-right">
+                    <div class="topbar-greeting" id="topbar-greeting">Good evening</div>
+                    <div class="topbar-avatar" id="topbar-avatar">M</div>
+                </div>
+            </header>
+
+            <!-- Pages -->
+            <div class="page-container">
+
+                <!-- ===== DASHBOARD PAGE ===== -->
+                <section class="page active" id="page-dashboard">
+                    <div class="page-header">
+                        <h1 class="page-title">Dashboard</h1>
+                        <p class="page-subtitle">Your financial overview at a glance</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card stat-card--primary">
+                            <div class="stat-card-bg"></div>
+                            <div class="stat-label">Total Balance</div>
+                            <div class="stat-value" id="stat-total-balance">₹0.00</div>
+                            <div class="stat-sub" id="stat-accounts-count">Across 0 accounts</div>
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.39-2.1 1.39-1.6 0-2.23-.72-2.32-1.64H8.04c.1 1.7 1.36 2.66 2.86 2.97V19h2.34v-1.67c1.52-.29 2.72-1.16 2.73-2.77-.01-2.2-1.9-2.96-3.66-3.42z" fill="currentColor" opacity="0.9"/></svg>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-label">Active Accounts</div>
+                            <div class="stat-value stat-value--sm" id="stat-active-accounts">0</div>
+                            <div class="stat-sub">All verified &amp; secured</div>
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M2 10h20" stroke="currentColor" stroke-width="1.8"/></svg>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-label">Last Transaction</div>
+                            <div class="stat-value stat-value--sm" id="stat-last-tx">—</div>
+                            <div class="stat-sub" id="stat-last-tx-date">No transactions yet</div>
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="none"><path d="M7 16V4m0 0L4 7m3-3l3 3M17 8v12m0 0l3-3m-3 3l-3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                    </div>
+
+                    <div class="section-header">
+                        <h2 class="section-title">Your Accounts</h2>
+                        <button class="btn-secondary btn-sm" onclick="navigateTo('accounts')">View All</button>
+                    </div>
+                    <div class="accounts-mini-list" id="accounts-mini-list">
+                        <div class="empty-state-sm">Loading accounts...</div>
+                    </div>
+
+                    <div class="section-header" style="margin-top: 2rem">
+                        <h2 class="section-title">Quick Transfer</h2>
+                    </div>
+                    <div class="quick-transfer-card" onclick="navigateTo('transfer')">
+                        <div class="qt-icon">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M7 16V4m0 0L4 7m3-3l3 3M17 8v12m0 0l3-3m-3 3l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <div>
+                            <p class="qt-title">Send Money</p>
+                            <p class="qt-sub">Transfer funds to any account instantly</p>
+                        </div>
+                        <svg class="qt-arrow" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    </div>
+                </section>
+
+                <!-- ===== ACCOUNTS PAGE ===== -->
+                <section class="page" id="page-accounts">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-title">Accounts</h1>
+                            <p class="page-subtitle">Manage your bank accounts</p>
+                        </div>
+                        <button class="btn-primary btn-sm" onclick="openCreateAccountModal()">
+                            <svg viewBox="0 0 24 24" fill="none" style="width:16px;height:16px"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+                            New Account
+                        </button>
+                    </div>
+
+                    <div class="accounts-grid" id="accounts-grid">
+                        <div class="loading-state">
+                            <div class="spinner"></div>
+                            <p>Loading accounts...</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== TRANSFER PAGE ===== -->
+                <section class="page" id="page-transfer">
+                    <div class="page-header">
+                        <h1 class="page-title">Transfer Funds</h1>
+                        <p class="page-subtitle">Send money securely with atomic transactions</p>
+                    </div>
+
+                    <div class="transfer-layout">
+                        <div class="transfer-card">
+                            <form id="transfer-form" onsubmit="handleTransfer(event)">
+                                <div class="form-group">
+                                    <label for="tx-from">From Account</label>
+                                    <select id="tx-from" required>
+                                        <option value="">Select source account...</option>
+                                    </select>
+                                </div>
+
+                                <div class="transfer-arrow-display">
+                                    <div class="transfer-arrow-line"></div>
+                                    <div class="transfer-arrow-circle">
+                                        <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14m0 0l-4-4m4 4l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </div>
+                                    <div class="transfer-arrow-line"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="tx-to">To Account ID</label>
+                                    <div class="input-wrapper">
+                                        <svg class="input-icon" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M2 10h20" stroke="currentColor" stroke-width="1.8"/></svg>
+                                        <input type="text" id="tx-to" placeholder="Paste destination account ID..." required>
+                                    </div>
+                                    <p class="field-hint">Ask receiver for their MongoDB account _id</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="tx-amount">Amount (₹)</label>
+                                    <div class="amount-input-wrapper">
+                                        <span class="amount-prefix">₹</span>
+                                        <input type="number" id="tx-amount" placeholder="0.00" min="1" step="0.01" required>
+                                    </div>
+                                </div>
+
+                                <div class="idempotency-row">
+                                    <div class="form-group" style="flex:1">
+                                        <label for="tx-idem">Idempotency Key
+                                            <span class="info-badge" title="A unique key to prevent duplicate transactions">?</span>
+                                        </label>
+                                        <input type="text" id="tx-idem" placeholder="Auto-generated" readonly>
+                                    </div>
+                                    <button type="button" class="btn-secondary btn-sm idem-refresh" onclick="generateIdempotencyKey()" title="Generate new key">
+                                        <svg viewBox="0 0 24 24" fill="none"><path d="M4 4v5h5M20 20v-5h-5M4.07 16A9 9 0 1020 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    </button>
+                                </div>
+
+                                <div id="transfer-error" class="form-error hidden"></div>
+                                <div id="transfer-success" class="form-success hidden"></div>
+
+                                <button type="submit" class="btn-primary btn-full" id="transfer-btn">
+                                    <svg viewBox="0 0 24 24" fill="none" style="width:18px;height:18px"><path d="M12 22V2M2 12l10 10L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    <span class="btn-text">Send Money</span>
+                                    <div class="btn-spinner hidden"></div>
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="transfer-info">
+                            <div class="info-card">
+                                <h3 class="info-card-title">How It Works</h3>
+                                <div class="transfer-steps">
+                                    <div class="tx-step"><span class="tx-step-num">1</span><p>Select your source account</p></div>
+                                    <div class="tx-step"><span class="tx-step-num">2</span><p>Enter destination account ID</p></div>
+                                    <div class="tx-step"><span class="tx-step-num">3</span><p>Enter amount to transfer</p></div>
+                                    <div class="tx-step"><span class="tx-step-num">4</span><p>Atomic MongoDB transaction executes</p></div>
+                                    <div class="tx-step"><span class="tx-step-num">5</span><p>Email confirmation sent</p></div>
+                                </div>
+                            </div>
+                            <div class="info-card info-card--dark">
+                                <h3 class="info-card-title">Security</h3>
+                                <ul class="security-list">
+                                    <li>🔐 JWT-authenticated requests</li>
+                                    <li>⚛️  ACID-compliant MongoDB sessions</li>
+                                    <li>🔑 Idempotency key prevents duplicates</li>
+                                    <li>📋 Immutable ledger entries</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== HISTORY PAGE ===== -->
+                <section class="page" id="page-history">
+                    <div class="page-header-row">
+                        <div>
+                            <h1 class="page-title">Transaction History</h1>
+                            <p class="page-subtitle">All your ledger activity</p>
+                        </div>
+                        <div class="filter-controls">
+                            <select id="history-account-filter" onchange="loadHistory()">
+                                <option value="">All Accounts</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="history-table-wrap">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Account</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Transaction ID</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-tbody">
+                                <tr><td colspan="6" class="table-loading">Loading history...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div><!-- end page-container -->
+        </main>
+    </div><!-- end app-screen -->
+
+    <!-- ========= MODALS ========= -->
+
+    <!-- Create Account Modal -->
+    <div class="modal-backdrop hidden" id="modal-create-account" onclick="closeModal('modal-create-account')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">Create New Account</h2>
+                <button class="modal-close" onclick="closeModal('modal-create-account')">
+                    <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="create-account-form" onsubmit="handleCreateAccount(event)">
+                    <div class="form-group">
+                        <label for="account-currency">Currency</label>
+                        <select id="account-currency">
+                            <option value="INR">🇮🇳 INR — Indian Rupee</option>
+                            <option value="USD">🇺🇸 USD — US Dollar</option>
+                            <option value="EUR">🇪🇺 EUR — Euro</option>
+                            <option value="GBP">🇬🇧 GBP — British Pound</option>
+                        </select>
+                    </div>
+                    <div id="create-account-error" class="form-error hidden"></div>
+                    <button type="submit" class="btn-primary btn-full" id="create-account-btn">
+                        <span class="btn-text">Create Account</span>
+                        <div class="btn-spinner hidden"></div>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Detail Modal -->
+    <div class="modal-backdrop hidden" id="modal-account-detail" onclick="closeModal('modal-account-detail')">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">Account Details</h2>
+                <button class="modal-close" onclick="closeModal('modal-account-detail')">
+                    <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </button>
+            </div>
+            <div class="modal-body" id="account-detail-body">
+                <div class="spinner-center"><div class="spinner"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
