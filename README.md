@@ -36,7 +36,3 @@ A backend banking ledger system where users can
 - Auth — `POST /api/auth/register`, `POST /api/auth/login`, `POST /api/auth/logout`
 - Accounts — `POST /api/accounts`, `GET /api/accounts`, `GET /api/accounts/balance/:accountId`
 - Transactions — `POST /api/transactions`, `POST /api/transactions/system/initial-funds`
-
-## Acknowledgements
-
-Inspired by the [backend-ledger](https://github.com/ankurdotio/backend-ledger) tutorial series by [@ankurdotio](https://github.com/ankurdotio).
